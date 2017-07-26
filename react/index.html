@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://fb.me/react-15.2.1.js"></script>
+		<script src="https://fb.me/react-dom-15.2.1.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.js"></script>
+		<title>My First React File</title>
+	</head>
+	<body>
+	<div id='react-container'></div>
+	<script type="text/babel">
+		/*ReactDOM.render(
+			React.createElement('div', null, 'Hello world'),
+			document.getElementById('react-container')
+			);
+		*/
+
+		/*var MyComponent = React.createClass({
+			render() {
+				return <div>
+					<h1>Hello World</h1>
+					<p>This is my first React component!</p>
+				</div>
+			}
+		});
+		
+
+		const MyComponent = () => {
+			return <div>
+					<h1>{this.props.text}</h1>
+					<p>This is my first React component!</p>
+				</div>
+		}
+		*/
+
+		class MyComponent extends React.Component {
+			render() {
+				return <div>
+					<h1>{this.props.text}</h1>
+					<p>{this.props.children}</p>
+				</div>
+			}
+		}
+		
+
+		ReactDOM.render(<div>
+			<MyComponent text="Hello World">This is message 1</MyComponent>
+			<MyComponent text="I am a component">This is message 2</MyComponent>
+			<MyComponent text="Hello World">This is message 3</MyComponent>
+			<MyComponent text="Hello World">This is message 4</MyComponent>
+			</div>,
+			document.getElementById('react-container'))
+	</script>
+
+	</body>
+</html>
