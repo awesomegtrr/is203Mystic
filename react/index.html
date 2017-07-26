@@ -4,6 +4,7 @@
 		<script src="https://fb.me/react-15.2.1.js"></script>
 		<script src="https://fb.me/react-dom-15.2.1.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.js"></script>
+		<link rel="stylesheet" type="text/css" href="style.css"/>
 		<title>My First React File</title>
 	</head>
 	<body>
@@ -15,6 +16,7 @@
 			);
 		*/
 
+		//First way to create components
 		/*var MyComponent = React.createClass({
 			render() {
 				return <div>
@@ -24,15 +26,15 @@
 			}
 		});
 		
-
+		//Second way to create component
 		const MyComponent = () => {
 			return <div>
 					<h1>{this.props.text}</h1>
 					<p>This is my first React component!</p>
 				</div>
 		}
-		*/
-
+		
+		//Third way to create component
 		class MyComponent extends React.Component {
 			render() {
 				return <div>
@@ -41,8 +43,18 @@
 				</div>
 			}
 		}
-		
 
+		ReactDOM.render(<div>
+			<MyComponent text="Hello World"/>
+			<MyComponent text="I am a component"/>
+			<MyComponent text="Hello World"/>
+			<MyComponent text="Hello World"/>
+			</div>,
+			document.getElementById('react-container'))
+		*/
+
+		//You can add messages within component tags for it to be used as props.children.
+		/*
 		ReactDOM.render(<div>
 			<MyComponent text="Hello World">This is message 1</MyComponent>
 			<MyComponent text="I am a component">This is message 2</MyComponent>
@@ -50,6 +62,61 @@
 			<MyComponent text="Hello World">This is message 4</MyComponent>
 			</div>,
 			document.getElementById('react-container'))
+		*/
+
+		//create methods inside component to be used within render()
+		//className and onClick
+		/*
+		var Note = React.createClass({
+			edit() {
+				alert("Editing Note")
+			},
+			remove() {
+				alert("Removing Note")
+			},
+			render() {
+				return (
+					<div className="note">
+						<p>{this.props.children}</p>
+						<span>
+							<button onClick={this.edit}>EDIT</button>
+							<button onClick={this.remove}>X</button>
+						</span>
+					</div>
+				)
+			}
+		})
+
+		ReactDOM.render(<Note>Hello World</Note>,
+			document.getElementById('react-container'))
+		*/
+
+		var Checkbox = React.createClass({
+			//react inbuilt abstract method
+			getInitialState() {
+				return {checked: false}
+			},
+			handleCheck() {
+				//react inbuilt function: setState()
+				this.setState({checked: !this.state.checked})
+			},
+			render() {
+				var msg
+				if(this.state.checked) {
+					msg = "checked"
+				} else {
+					msg = "unchecked"
+				}
+				return ( <div>
+						<input type="checkbox" onChange={this.handleCheck}
+						defaultChecked={this.state.checked}/>
+						<p>This box is {msg}</p>
+						</div>)
+			}
+		})
+
+		ReactDOM.render(<Checkbox/>, document.getElementById('react-container'))
+
 	</script>
 
 	</body>
