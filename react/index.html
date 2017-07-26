@@ -66,15 +66,35 @@
 
 		//create methods inside component to be used within render()
 		//className and onClick
-		/*
+		
 		var Note = React.createClass({
+			//override abstract method: getInitialState(), setState()
+			getInitialState() {
+				return {editing: false}
+			},
 			edit() {
-				alert("Editing Note")
+				this.setState({editing: true})
+				//alert("Editing Note")
+			},
+			save() {
+				//retrieve ref using this.refs.xxx
+				var val = this.refs.newText.value
+				alert('Later we will save this value: ' + val)
+				this.setState({editing: false})
 			},
 			remove() {
 				alert("Removing Note")
 			},
-			render() {
+			renderForm() {
+				//use ref to store/update values
+				return (
+					<div className="note">
+						<textarea ref="newText"></textarea>
+						<button onClick={this.save}>SAVE</button>
+					</div>
+				)
+			},
+			renderDisplay() {
 				return (
 					<div className="note">
 						<p>{this.props.children}</p>
@@ -84,13 +104,53 @@
 						</span>
 					</div>
 				)
+			},
+			render() {
+				return (this.state.editing) ? this.renderForm() : this.renderDisplay()
 			}
 		})
 
-		ReactDOM.render(<Note>Hello World</Note>,
-			document.getElementById('react-container'))
-		*/
+		var Board = React.createClass({
+			//Prop Types are optional feature. 
+			//Documentation the values and types the component accepts
+			propTypes: {
+				count: function(props, propName) {
+					if(typeof props[propName] !== "number") {
+						return new Error("the count must be a number")
+					}
 
+					if(props[propName] > 100) {
+						return new Error("Creating " + props[propName] + ' notes is ridiculous')
+					}
+				}
+			},
+			getInitialState() {
+				return {
+					notes: [
+						'Call Bob',
+						'Email Sarah',
+						'Eat Lunch',
+						'Finish proposal'
+					]
+				}
+			},
+			render() {
+			/*This EX6 arrow function is going to take arguments into this first set of parentheses, and then it's going to return whatever follows the arrow. What it will take in his note, and I, and I is going to be representative of the item in the array. Then, inside of here, we are going to return note, and then we are going to give the note a key of I, and then we are going to display whatever the content of note is.*/
+				return (<div className='board'>
+					{this.state.notes.map((note, i) => {
+						return <Note key={i}>{note}</Note>
+					})}
+					</div>)
+					
+			}
+		})
+
+		ReactDOM.render(<Board count={10}/>,
+			document.getElementById('react-container'))
+		
+
+		//adding state to form elements
+		/*
 		var Checkbox = React.createClass({
 			//react inbuilt abstract method
 			getInitialState() {
@@ -116,7 +176,7 @@
 		})
 
 		ReactDOM.render(<Checkbox/>, document.getElementById('react-container'))
-
+		*/
 	</script>
 
 	</body>
