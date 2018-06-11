@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import MyComponent from './MyComponent';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
+import Header from './components/Header';
 
 class App extends Component {
   constructor(props) {
@@ -17,7 +19,7 @@ class App extends Component {
   }
 
   renderTitle() {
-    if(!this.state.shouldRenderTitle) { return null; }
+    if (!this.state.shouldRenderTitle) { return null; }
 
     return <h1>Title</h1>;
   }
@@ -48,9 +50,19 @@ class App extends Component {
     // ];
 
     return (
-      <div className="App">
-        {this.renderTitle()}
-        {/* <h1>
+      <Router>
+        <div className="App">
+          <Header />
+          <Switch>
+            <Route exact path="/" component={MyComponent} />
+            <Switch>
+              <Route path="/about" component={MyComponent} />
+              <Route path="/about/:id" component={MyComponent} />
+            </Switch>
+          </Switch>
+
+          {this.renderTitle()}
+          {/* <h1>
           {this.state.title} */}
           {/* {
             list.map( item => {
@@ -59,21 +71,22 @@ class App extends Component {
               );
             })
           } */}
-        {/* </h1>
+          {/* </h1>
         <div onClick={this.onClick}>Click here!</div> */}
-        <input 
-          value={this.state.name} 
-          onChange={this.updateName}
-        />
-        <MyComponent 
-          name={this.state.name}
-          title={this.state.title}
-          onClick={this.onClick}
-        />
-        {/* <form onSubmit={this.onSubmit}>
+          <input
+            value={this.state.name}
+            onChange={this.updateName}
+          />
+          <MyComponent
+            name={this.state.name}
+            title={this.state.title}
+            onClick={this.onClick}
+          />
+          {/* <form onSubmit={this.onSubmit}>
           <input onChange={this.onChange} ref={input => this.input = input}/>
         </form> */}
-      </div>
+        </div>
+      </Router>
     );
   }
 }
