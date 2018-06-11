@@ -3,6 +3,8 @@ import MyComponent from './MyComponent';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
+import RtnPage from './components/RtnPage';
+import HomePage from './components/HomePage';
 
 class App extends Component {
   constructor(props) {
@@ -10,12 +12,21 @@ class App extends Component {
     this.state = {
       title: 'Initial name',
       name: 'Initial name',
-      shouldRenderTitle: true
+      shouldRenderTitle: true,
+      app_name: null
     };
     // required to bind if method is accessing props/state within component
     this.onSubmit = this.onSubmit.bind(this);
     this.onClick = this.onClick.bind(this);
     this.updateName = this.updateName.bind(this);
+    this.updateAppName = this.updateAppName.bind(this);
+  }
+
+  updateAppName(dataFromChild) {
+    console.log('parent callback called ' + dataFromChild);
+    this.setState({
+      app_name: dataFromChild
+    });
   }
 
   renderTitle() {
@@ -54,14 +65,17 @@ class App extends Component {
         <div className="App">
           <Header />
           <Switch>
-            <Route exact path="/" component={MyComponent} />
+            <Route exact path="/" component={HomePage} />
             <Switch>
-              <Route path="/about" component={MyComponent} />
-              <Route path="/about/:id" component={MyComponent} />
+              <Route exact path="/about" component={() => <MyComponent callBackFromParent={this.updateAppName} />} />
+              <Route path="/about/:id" component={
+                () => <RtnPage app_name={this.state.app_name} />
+              }
+              />
             </Switch>
           </Switch>
 
-          {this.renderTitle()}
+          {/* {this.renderTitle()} */}
           {/* <h1>
           {this.state.title} */}
           {/* {
@@ -73,7 +87,7 @@ class App extends Component {
           } */}
           {/* </h1>
         <div onClick={this.onClick}>Click here!</div> */}
-          <input
+          {/* <input
             value={this.state.name}
             onChange={this.updateName}
           />
@@ -81,7 +95,7 @@ class App extends Component {
             name={this.state.name}
             title={this.state.title}
             onClick={this.onClick}
-          />
+          /> */}
           {/* <form onSubmit={this.onSubmit}>
           <input onChange={this.onChange} ref={input => this.input = input}/>
         </form> */}
